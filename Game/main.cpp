@@ -35,7 +35,7 @@ String map[MH] = {
 
 // for scrolling map
 float offSetX, offSetY;
-
+//
 class Player {
 public:
 	float dx, dy; // velocity
