@@ -2,15 +2,19 @@
 
 using namespace sf;
 
-// map's size
+// window size
+const int WH = 400;
+const int WW = 600;
+
+// map size
 const int MH = 12;
 const int MW = 40;
 
-// player's size
+// player size
 const int PH = 50;
 const int PW = 40;
 
-// cell's size
+// cell size
 const int CH = 32;
 const int CW = 32;
 
@@ -29,8 +33,8 @@ String map[MH] = {
 	"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
 };
 
-// ground's level
-int ground  = 300;
+// for scrolling map
+float offSetX, offSetY;
 
 class Player {
 public:
@@ -59,12 +63,6 @@ public:
 		onGround = false;
 		CollisionY();
 
-		//if (rect.top > ground) {
-		//	onGround = true;
-		//	dy = 0;
-		//	rect.top = ground;
-		//}
-
 		// selecting frame for player's animation
 		currentFrame += 0.005 * time;
 		if (currentFrame > 6)
@@ -82,7 +80,7 @@ public:
 				sprite.setTextureRect(IntRect(40, 189, -PW, PH));
 		}
 
-		sprite.setPosition(rect.left, rect.top);
+		sprite.setPosition(rect.left - offSetX, rect.top - offSetY);
 
 		prev_dx = dx;
 		dx = 0;
@@ -123,7 +121,7 @@ public:
 
 int main()
 {
-    RenderWindow window(VideoMode(600, 400), "Prob!");
+    RenderWindow window(VideoMode(WW, WH), "Prob!");
 
 	Texture t;
 	t.loadFromFile("fang.png");
@@ -156,6 +154,11 @@ int main()
 		player.update(time);
         window.clear(Color::White);
 
+		if (player.rect.left - WW / 2 > 0 && player.rect.left + PW + WW / 2 < MW * CW + CW)
+			offSetX = player.rect.left - 600 / 2;
+		if (player.rect.top - WH / 2 > 0 && player.rect.top + PH + WH / 2 < MH * CH + CH)
+			offSetY = player.rect.top - 400 / 2;
+
 		for (int i = 0; i < MH; ++i)
 			for (int j = 0; j < MW; ++j) {
 				if (map[i][j] == 'B')
@@ -165,7 +168,7 @@ int main()
 				if (map[i][j] == ' ')
 					continue;
 
-				rectangle.setPosition(j * CW, i * CH);
+				rectangle.setPosition(j * CW - offSetX, i * CH - offSetY);
 				window.draw(rectangle);
 			}
 
