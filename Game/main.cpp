@@ -119,9 +119,8 @@ public:
 	}
 };
 
-int main()
-{
-    RenderWindow window(VideoMode(WW, WH), "Prob!");
+int main() {
+	RenderWindow window(VideoMode(WW, WH), "Prob!");
 
 	Texture t;
 	t.loadFromFile("fang.png");
@@ -131,14 +130,14 @@ int main()
 	Player player(t);
 	Clock clock;
 
-    while (window.isOpen()) {
+	while (window.isOpen()) {
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
 		time /= 700;
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed)
-                window.close();
+		Event event;
+		while (window.pollEvent(event)) {
+		    if (event.type == Event::Closed)
+			window.close();
         }
 
 		if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -152,7 +151,7 @@ int main()
 			}
 		}
 		player.update(time);
-        window.clear(Color::White);
+		window.clear(Color::White);
 
 		if (player.rect.left - WW / 2 > 0 && player.rect.left + PW + WW / 2 < MW * CW + CW)
 			offSetX = player.rect.left - 600 / 2;
@@ -172,8 +171,8 @@ int main()
 				window.draw(rectangle);
 			}
 
-        window.draw(player.sprite);
-        window.display();
+		window.draw(player.sprite);
+		window.display();
     }
 
     return 0;
