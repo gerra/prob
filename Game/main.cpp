@@ -89,19 +89,21 @@ public:
 	}
 
 	void CollisionX() {
-		for (int i = rect.top / CH; i <= (rect.top + PH) / CH; ++i)
-			for (int j = rect.left / CW; j <= (rect.left + PW) / CW; ++j) {
+		for (int i = rect.top / CH; i < (rect.top + PH) / CH; ++i)
+			for (int j = rect.left / CW; j < (rect.left + PW) / CW; ++j) {
 				if (map[i][j] == 'B') {
 					if (dx > 0)
 						rect.left = j * CW - PW;
 					if (dx < 0)
 						rect.left = j * CW + CW;
 				}
+				if (map[i][j] == '0')
+					map[i][j] = ' ';
 			}
 	}
 	void CollisionY() {
-		for (int i = rect.top / CH; i <= (rect.top + PH) / CH; ++i)
-			for (int j = rect.left / CW; j <= (rect.left + PW) / CW; ++j) {
+		for (int i = rect.top / CH; i < (rect.top + PH) / CH; ++i)
+			for (int j = rect.left / CW; j < (rect.left + PW) / CW; ++j) {
 				if (map[i][j] == 'B') {
 					if (dy > 0) {
 						rect.top = i * CH - PH;
@@ -113,6 +115,8 @@ public:
 						dy = 0;
 					}
 				}
+				if (map[i][j] == '0')
+					map[i][j] = ' ';
 			}
 	}
 };
@@ -145,7 +149,7 @@ int main()
 			player.dx = +0.1;
 		if (Keyboard::isKeyPressed(Keyboard::Up)) {
 			if (player.onGround) {
-				player.dy = -0.3;
+				player.dy = -0.35;
 				player.onGround = false;
 			}
 		}
